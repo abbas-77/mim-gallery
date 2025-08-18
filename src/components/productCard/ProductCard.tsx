@@ -1,6 +1,6 @@
-import React from 'react';
-import { MapPin } from 'lucide-react';
-import Image from 'next/image';
+import React from "react";
+import { MapPin } from "lucide-react";
+import Image from "next/image";
 
 type Props = {
   imageUrl: string;
@@ -11,16 +11,23 @@ type Props = {
   meters: number;
 };
 
-const ProductCard = ({ imageUrl, title, price, description, location, meters }: Props) => {
+const ProductCard = ({
+  imageUrl,
+  title,
+  price,
+  description,
+  location,
+  meters,
+}: Props) => {
   return (
     <div className="max-w-sm bg-white border border-gray-200 rounded-xl shadow-md overflow-hidden hover:scale-105 duration-300">
-     <Image
-  src={imageUrl}
-  alt="Product Image"
-  width={300}
-  height={200}
-  className="object-cover w-full h-48"
-/>
+      <Image
+        src={imageUrl}
+        alt="Product Image"
+        width={300}
+        height={200}
+        className="object-cover w-full h-48"
+      />
       <div className="p-4 space-y-2">
         <h2 className="text-lg font-semibold text-gray-800">{title}</h2>
         <p className="text-blue-600 font-bold text-sm">${price}</p>
