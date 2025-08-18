@@ -26,8 +26,8 @@ const ProductCard = ({ imageUrl, title, price, description, location, meters })=
                 className: "object-cover w-full h-48"
             }, void 0, false, {
                 fileName: "[project]/src/components/productCard/ProductCard.tsx",
-                lineNumber: 17,
-                columnNumber: 6
+                lineNumber: 24,
+                columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: "p-4 space-y-2",
@@ -37,7 +37,7 @@ const ProductCard = ({ imageUrl, title, price, description, location, meters })=
                         children: title
                     }, void 0, false, {
                         fileName: "[project]/src/components/productCard/ProductCard.tsx",
-                        lineNumber: 25,
+                        lineNumber: 32,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -48,7 +48,7 @@ const ProductCard = ({ imageUrl, title, price, description, location, meters })=
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/productCard/ProductCard.tsx",
-                        lineNumber: 26,
+                        lineNumber: 33,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -56,7 +56,7 @@ const ProductCard = ({ imageUrl, title, price, description, location, meters })=
                         children: description
                     }, void 0, false, {
                         fileName: "[project]/src/components/productCard/ProductCard.tsx",
-                        lineNumber: 27,
+                        lineNumber: 34,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -66,20 +66,20 @@ const ProductCard = ({ imageUrl, title, price, description, location, meters })=
                                 className: "w-4 h-4"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/productCard/ProductCard.tsx",
-                                lineNumber: 29,
+                                lineNumber: 36,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                 children: location
                             }, void 0, false, {
                                 fileName: "[project]/src/components/productCard/ProductCard.tsx",
-                                lineNumber: 30,
+                                lineNumber: 37,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/productCard/ProductCard.tsx",
-                        lineNumber: 28,
+                        lineNumber: 35,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -90,19 +90,19 @@ const ProductCard = ({ imageUrl, title, price, description, location, meters })=
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/productCard/ProductCard.tsx",
-                        lineNumber: 32,
+                        lineNumber: 39,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/productCard/ProductCard.tsx",
-                lineNumber: 24,
+                lineNumber: 31,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/components/productCard/ProductCard.tsx",
-        lineNumber: 16,
+        lineNumber: 23,
         columnNumber: 5
     }, this);
 };
