@@ -70,7 +70,7 @@ export default function Home() {
       {products.map((product) => (
         <ProductCard
           key={product.id}
-          imageUrl={product.imageUrl}
+          imageUrl={product?.imageUrl}
           title={product.title}
           price={product.price}
           description={product.description}
