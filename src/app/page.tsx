@@ -3,6 +3,7 @@ import ProductCard from "@/components/productCard/ProductCard";
 import SearchBar from "@/components/searchBar/SearchBar";
 import LandingBanner from "@/components/landingBanner/LandingBanner";
 import { useState } from "react";
+import NewArrivals from "@/components/arrivals/NewArrivals";
 
 
 export default function Home() {
@@ -66,6 +67,7 @@ export default function Home() {
         onChange={setSearchQuery}
         onSearch={handleSearch}
       />
+      <NewArrivals />
        <div className="px-20 p-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
       {products.map((product) => (
         <ProductCard
