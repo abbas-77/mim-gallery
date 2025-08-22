@@ -4,6 +4,7 @@ import SearchBar from "@/components/searchBar/SearchBar";
 import LandingBanner from "@/components/landingBanner/LandingBanner";
 import { useState } from "react";
 import NewArrivals from "@/components/arrivals/NewArrivals";
+import FullScreenSlider from "@/components/fullScreenSlider/FullScreenSlider";
 
 
 export default function Home() {
@@ -61,12 +62,12 @@ export default function Home() {
 ];
   return (
     <div>
-      <LandingBanner />
-      <SearchBar 
+      <FullScreenSlider />
+      {/* <SearchBar 
       value={searchQuery}
         onChange={setSearchQuery}
         onSearch={handleSearch}
-      />
+      /> */}
       <NewArrivals />
        <div className="px-20 p-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
       {products.map((product) => (
