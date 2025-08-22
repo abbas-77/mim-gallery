@@ -5,6 +5,7 @@ import LandingBanner from "@/components/landingBanner/LandingBanner";
 import { useState } from "react";
 import NewArrivals from "@/components/arrivals/NewArrivals";
 import FullScreenSlider from "@/components/fullScreenSlider/FullScreenSlider";
+import ExploreMasonry, { ExploreItem } from "@/components/exploreMasonry/ExploreMasonry";
 
 
 export default function Home() {
@@ -13,55 +14,31 @@ export default function Home() {
   const handleSearch = () => {
     console.log('Searching for:', searchQuery);
   };
-  const products = [
-  {
-    id: 1,
-    imageUrl: 'https://via.placeholder.com/300',
-    title: 'Modern Apartment',
-    price: 120000,
-    description: 'A cozy apartment in the city center.',
-    location: 'Tehran, Iran',
-    meters: 85,
-  },
-  {
-    id: 2,
-    imageUrl: 'https://via.placeholder.com/300',
-    title: 'Luxury Villa',
-    price: 450000,
-    description: 'A beautiful villa with private pool.',
-    location: 'Shiraz, Iran',
-    meters: 250,
-  },
-  {
-    id: 3,
-    imageUrl: 'https://via.placeholder.com/300',
-    title: 'Studio Flat',
-    price: 70000,
-    description: 'Compact studio flat ideal for singles.',
-    location: 'Isfahan, Iran',
-    meters: 45,
-  },
-  {
-    id: 4,
-    imageUrl: 'https://via.placeholder.com/300',
-    title: 'Studio Flat',
-    price: 70000,
-    description: 'Compact studio flat ideal for singles.',
-    location: 'Isfahan, Iran',
-    meters: 45,
-  },
-  {
-    id: 5,
-    imageUrl: 'https://via.placeholder.com/300',
-    title: 'Studio Flat',
-    price: 70000,
-    description: 'Compact studio flat ideal for singles.',
-    location: 'Isfahan, Iran',
-    meters: 45,
-  },
+
+  const demoItems: ExploreItem[] = [
+  { id: 1, src: "/images/product1.jpg", title: "Hammered Ring", price: 129, badge: "New" },
+  { id: 2, src: "/images/product2.jpg", title: "Pearl Necklace", price: 249 },
+  { id: 3, src: "/images/product5.jpg", title: "Minimal Bracelet", price: 89, badge: "-20%" },
+  { id: 4, src: "/images/product7.jpg", title: "Classic Studs", price: 59 },
+  { id: 5, src: "/images/product4.jpg", title: "Diamond Pendant", price: 399 },
+  { id: 6, src: "/images/product3.jpg", title: "Stackable Rings", price: 149 },
+  { id: 1, src: "/images/product1.jpg", title: "Hammered Ring", price: 129, badge: "New" },
+  { id: 2, src: "/images/product2.jpg", title: "Pearl Necklace", price: 249 },
+  { id: 3, src: "/images/product5.jpg", title: "Minimal Bracelet", price: 89, badge: "-20%" },
+  { id: 4, src: "/images/product7.jpg", title: "Classic Studs", price: 59 },
+  { id: 5, src: "/images/product4.jpg", title: "Diamond Pendant", price: 399 },
+  { id: 6, src: "/images/product3.jpg", title: "Stackable Rings", price: 149 },
+  { id: 1, src: "/images/product1.jpg", title: "Hammered Ring", price: 129, badge: "New" },
+  { id: 2, src: "/images/product2.jpg", title: "Pearl Necklace", price: 249 },
+  { id: 3, src: "/images/product5.jpg", title: "Minimal Bracelet", price: 89, badge: "-20%" },
+  { id: 4, src: "/images/product7.jpg", title: "Classic Studs", price: 59 },
+  { id: 5, src: "/images/product4.jpg", title: "Diamond Pendant", price: 399 },
+  { id: 6, src: "/images/product3.jpg", title: "Stackable Rings", price: 149 },
+  // ...more
 ];
+
   return (
-    <div>
+    <div className="bg-gradient-to-b from-white to-[#fdf6ec]">
       <FullScreenSlider />
       {/* <SearchBar 
       value={searchQuery}
@@ -69,19 +46,7 @@ export default function Home() {
         onSearch={handleSearch}
       /> */}
       <NewArrivals />
-       <div className="px-20 p-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-      {products.map((product) => (
-        <ProductCard
-          key={product.id}
-          imageUrl={product?.imageUrl}
-          title={product.title}
-          price={product.price}
-          description={product.description}
-          location={product.location}
-          meters={product.meters}
-        />
-      ))}
-    </div>
+      <ExploreMasonry items={demoItems} />
     </div>
   );
 }
