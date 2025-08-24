@@ -1,6 +1,7 @@
 // components/NewArrivals.tsx
 import { FC } from "react";
 import { Heart } from "lucide-react";
+import Link from "next/link";
 
 interface Product {
   id: number;
@@ -19,6 +20,7 @@ const products: Product[] = [
 ];
 
 const NewArrivals: FC = () => {
+
   return (
     <section className="bg-gradient-to-b from-white to-[#fdf6ec] py-14 px-4 font-sans">
       {/* Header */}
@@ -59,9 +61,9 @@ const NewArrivals: FC = () => {
                 <span className="text-yellow-400 font-semibold text-lg">
                   ${product.price}
                 </span>
-                <button className="bg-white text-gray-800 px-4 py-1.5 rounded text-sm font-medium hover:bg-gray-100 transition">
+                <Link href={`/products/${product.id}`} className="bg-white text-gray-800 px-4 py-1.5 rounded text-sm font-medium hover:bg-gray-100 transition">
                   View Details
-                </button>
+                </Link>
               </div>
             </div>
           </div>
