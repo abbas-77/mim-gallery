@@ -1,0 +1,90 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+import gsap from "gsap";
+
+const images = [
+  "/assets/img1.png",
+  "/assets/img2.png",
+  "/assets/img3.png",
+  "/assets/img4.png",
+];
+
+export default function MobileCorners() {
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const refs = useRef<(HTMLDivElement | null)[]>([]);
+  const [active, setActive] = useState(0);
+
+  const positions = [
+    { x: -300, y: -400 }, // top-left
+    { x: 300, y: -400 }, // top-right
+    { x: 300, y: 400 }, // bottom-right
+    { x: -300, y: 400 }, // bottom-left
+  ];
+
+  useEffect(() => {
+    // initial placement (STATIC)
+    refs.current.forEach((el, i) => {
+      if (!el) return;
+      gsap.set(el, {
+        x: positions[i].x,
+        y: positions[i].y,
+        rotate: [ -20, 20, -15, 15 ][i],
+        scale: 0.9,
+      });
+    });
+
+    moveCamera();
+  }, [active]);
+
+  const moveCamera = () => {
+    const pos = positions[active];
+
+    // 👉 حرکت دوربین (کانتینر)، نه آیتم‌ها
+    gsap.to(containerRef.current, {
+      x: -pos.x,
+      y: -pos.y,
+      scale: 1.4,
+      duration: 0.8,
+      ease: "power3.inOut",
+    });
+
+    // فقط صاف شدن آیتم active
+    refs.current.forEach((el, i) => {
+      if (!el) return;
+
+      gsap.to(el, {
+        rotate: i === active ? 0 : [ -20, 20, -15, 15 ][i],
+        duration: 0.6,
+      });
+    });
+  };
+
+  const next = () => {
+    setActive((prev) => (prev + 1) % images.length);
+  };
+
+  return (
+    <div className="w-full h-screen overflow-hidden bg-black flex items-center justify-center">
+      {/* 👇 این کل صحنه است که حرکت می‌کنه */}
+      <div ref={containerRef} className="relative">
+        {images.map((src, i) => (
+          <div
+            key={i}
+            ref={(el) => (refs.current[i] = el)}
+            className="absolute w-40 h-72 rounded-2xl overflow-hidden shadow-xl"
+          >
+            <img src={src} className="w-full h-full object-cover" />
+          </div>
+        ))}
+      </div>
+
+      <button
+        onClick={next}
+        className="absolute bottom-10 px-6 py-3 bg-white text-black rounded-xl"
+      >
+        Next
+      </button>
+    </div>
+  );
+}
