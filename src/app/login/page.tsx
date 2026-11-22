@@ -1,58 +1,75 @@
 "use client";
-import { useState } from "react";
-import { useRouter } from "next/navigation";  // ✅
-import { login } from "@/services/auth";
+import { useState, type FormEvent } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Suspense } from "react";
+import { login, getErrorMessage } from "@/services/auth";
 
-export default function LoginPage() {
+function LoginForm() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const router = useRouter();  // ✅
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
+  const searchParams = useSearchParams();
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setError("");
+    setLoading(true);
     try {
-      const res = await login(username, password);
-      console.log("Login success:", res);
-
-      // ذخیره توکن
-      localStorage.setItem("token", res.token);
-
-      // ✅ ریدایرکت با Next.js
-      router.push("/dashboard");
-    } catch (err: any) {
-      setError(err.response?.data?.message || "Login failed");
+      await login(username, password);
+      const from = searchParams.get("from");
+      // Only allow internal redirects
+      router.replace(from && from.startsWith("/") && !from.startsWith("//") ? from : "/dashboard");
+      router.refresh();
+    } catch (err) {
+      setError(getErrorMessage(err, "Login failed"));
+      setLoading(false);
     }
   };
 
   return (
-    <div className="flex h-screen items-center justify-center">
-      <form
-        onSubmit={handleSubmit}
-        className="flex flex-col gap-4 p-6 bg-white shadow rounded-lg w-80"
+    <form
+      onSubmit={handleSubmit}
+      className="flex flex-col gap-4 p-6 bg-white text-black shadow rounded-lg w-80"
+    >
+      <input
+        type="text"
+        placeholder="Username or email"
+        autoComplete="username"
+        required
+        value={username}
+        onChange={(e) => setUsername(e.target.value)}
+        className="border p-2 rounded"
+      />
+      <input
+        type="password"
+        placeholder="Password"
+        autoComplete="current-password"
+        required
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        className="border p-2 rounded"
+      />
+      {error && <p className="text-red-500 text-sm">{error}</p>}
+      <button
+        type="submit"
+        disabled={loading}
+        className="bg-blue-500 text-white p-2 rounded hover:bg-blue-600 disabled:opacity-60"
       >
-        <input
-          type="text"
-          placeholder="Username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          className="border p-2 rounded"
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="border p-2 rounded"
-        />
-        {error && <p className="text-red-500 text-sm">{error}</p>}
-        <button
-          type="submit"
-          className="bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
-        >
-          Login
-        </button>
-      </form>
+        {loading ? "Logging in..." : "Login"}
+      </button>
+    </form>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <div className="flex h-screen items-center justify-center">
+      {/* useSearchParams needs a Suspense boundary */}
+      <Suspense>
+        <LoginForm />
+      </Suspense>
     </div>
   );
 }
