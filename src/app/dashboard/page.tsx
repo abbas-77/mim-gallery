@@ -6,6 +6,7 @@ import { LogOut } from "lucide-react";
 import { getMe, logout, type User } from "@/services/auth";
 import { useI18n } from "@/providers/LocaleProvider";
 
+// mongodb+srv://abbasazimii77_db_user:Yi15tlv6jbQRoeWP@cluster0.lne4kbq.mongodb.net/
 export default function DashboardPage() {
   const router = useRouter();
   const { t } = useI18n();
