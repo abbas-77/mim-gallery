@@ -32,9 +32,13 @@ export const getMe = async (): Promise<User> => {
   return data;
 };
 
-export const getErrorMessage = (err: unknown, fallback = "Something went wrong"): string => {
+export const getErrorMessage = (
+  err: unknown,
+  fallback = "Something went wrong",
+  offlineMessage = "Cannot reach the server. Is the backend running?"
+): string => {
   if (axios.isAxiosError<{ message?: string }>(err)) {
-    if (!err.response) return "Cannot reach the server. Is the backend running?";
+    if (!err.response) return offlineMessage;
     return err.response.data?.message ?? fallback;
   }
   return fallback;

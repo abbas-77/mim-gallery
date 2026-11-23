@@ -1,8 +1,12 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Manrope } from "next/font/google";
+import { cookies } from "next/headers";
+import { Cormorant_Garamond, Manrope, Vazirmatn } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/navbar/Navbar";
 import Footer from "@/components/footer/Footer";
+import { LocaleProvider } from "@/providers/LocaleProvider";
+import { dictionaries } from "@/i18n/dictionaries";
+import { defaultLocale, dirOf, isLocale, LOCALE_COOKIE } from "@/i18n/config";
 
 const cormorant = Cormorant_Garamond({
   variable: "--font-cormorant",
@@ -16,22 +20,40 @@ const manrope = Manrope({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "MIM Gallery | Fine Gold Jewelry",
-  description: "Hand-finished 18K gold rings, necklaces and sets.",
+const vazirmatn = Vazirmatn({
+  variable: "--font-vazir",
+  subsets: ["arabic", "latin"],
+});
+
+const getLocale = async () => {
+  const value = (await cookies()).get(LOCALE_COOKIE)?.value;
+  return isLocale(value) ? value : defaultLocale;
 };
 
-export default function RootLayout({
+export async function generateMetadata(): Promise<Metadata> {
+  const { meta } = dictionaries[await getLocale()];
+  return { title: meta.title, description: meta.description };
+}
+
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const locale = await getLocale();
+
   return (
-    <html lang="en" className={`${cormorant.variable} ${manrope.variable}`}>
+    <html
+      lang={locale}
+      dir={dirOf(locale)}
+      className={`${cormorant.variable} ${manrope.variable} ${vazirmatn.variable}`}
+    >
       <body className="bg-ivory font-sans text-ink antialiased">
-        <Navbar />
-        <main>{children}</main>
-        <Footer />
+        <LocaleProvider initialLocale={locale}>
+          <Navbar />
+          <main>{children}</main>
+          <Footer />
+        </LocaleProvider>
       </body>
     </html>
   );

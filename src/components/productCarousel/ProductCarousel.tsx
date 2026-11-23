@@ -7,6 +7,7 @@ import { A11y, FreeMode, Keyboard, Mousewheel, Scrollbar } from "swiper/modules"
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import ProductCard from "@/components/productCard/ProductCard";
 import type { Product } from "@/data/products";
+import { useI18n } from "@/providers/LocaleProvider";
 
 import "swiper/css";
 import "swiper/css/free-mode";
@@ -14,34 +15,38 @@ import "swiper/css/scrollbar";
 
 type Props = {
   products: Product[];
-  /** Rendered on the left of the arrow buttons */
+  /** Rendered at the start of the row, before the arrow buttons */
   header?: React.ReactNode;
 };
 
+const arrowClass =
+  "grid h-12 w-12 place-items-center border border-ink/15 text-ink transition-colors duration-300 hover:border-royal-900 hover:bg-royal-900 hover:text-ivory disabled:pointer-events-none disabled:opacity-30";
+
 export default function ProductCarousel({ products, header }: Props) {
+  const { t, locale, dir } = useI18n();
   const [swiper, setSwiper] = useState<SwiperType | null>(null);
   const [edges, setEdges] = useState({ start: true, end: false });
 
   const syncEdges = (s: SwiperType) => setEdges({ start: s.isBeginning, end: s.isEnd });
-
-  const arrowClass =
-    "grid h-12 w-12 place-items-center border border-ink/15 text-ink transition-colors duration-300 hover:border-royal-800 hover:bg-royal-800 hover:text-ivory disabled:pointer-events-none disabled:opacity-30";
 
   return (
     <div>
       <div className="mb-12 flex flex-wrap items-end justify-between gap-6">
         <div className="min-w-0 flex-1">{header}</div>
         <div className="flex gap-2">
-          <button type="button" aria-label="Previous products" className={arrowClass} disabled={edges.start} onClick={() => swiper?.slidePrev()}>
-            <ArrowLeft className="h-4 w-4" />
+          <button type="button" aria-label={t.carousel.prev} className={arrowClass} disabled={edges.start} onClick={() => swiper?.slidePrev()}>
+            <ArrowLeft className="h-4 w-4 rtl:-scale-x-100" />
           </button>
-          <button type="button" aria-label="Next products" className={arrowClass} disabled={edges.end} onClick={() => swiper?.slideNext()}>
-            <ArrowRight className="h-4 w-4" />
+          <button type="button" aria-label={t.carousel.next} className={arrowClass} disabled={edges.end} onClick={() => swiper?.slideNext()}>
+            <ArrowRight className="h-4 w-4 rtl:-scale-x-100" />
           </button>
         </div>
       </div>
 
       <Swiper
+        // Remount on language change so Swiper re-reads the text direction
+        key={locale}
+        dir={dir}
         modules={[FreeMode, Scrollbar, Keyboard, Mousewheel, A11y]}
         className="product-swiper !overflow-visible"
         slidesPerView={1.15}

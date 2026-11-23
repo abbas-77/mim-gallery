@@ -2,26 +2,27 @@
 
 /*
   MIM Gallery: royal green + hallmark gold on a soft ivory ground.
-  Layout: generous whitespace, left-aligned editorial headings, hairline dividers.
+  royal-900 and gold are the exact brand colours from the logo files (public/images/1.svg).
+  Layout: generous whitespace, start-aligned editorial headings, hairline dividers.
 */
 @theme {
   /* Royal green */
-  --color-royal-950: #07231a;
-  --color-royal-900: #0b3325;
-  --color-royal-800: #104431;
-  --color-royal-700: #175a41;
-  --color-royal-100: #e2ebe5;
+  --color-royal-950: #002d2e;
+  --color-royal-900: #004142;
+  --color-royal-800: #0b5455;
+  --color-royal-700: #17696a;
+  --color-royal-100: #dfeae8;
 
   /* Gold */
-  --color-gold: #c3a05a;
-  --color-gold-light: #e5d3a4;
-  --color-gold-dark: #94733a;
+  --color-gold: #b2a877;
+  --color-gold-light: #d9d1a8;
+  --color-gold-dark: #776d43;
 
   /* Neutrals (slightly green-biased) */
-  --color-ivory: #f9f8f3;
-  --color-sand: #eeebe2;
-  --color-ink: #16201b;
-  --color-muted: #66706a;
+  --color-ivory: #f8f8f3;
+  --color-sand: #ecebe2;
+  --color-ink: #132120;
+  --color-muted: #5d6a68;
 
   --font-display: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
   --font-sans: var(--font-manrope), "Manrope", system-ui, sans-serif;
@@ -53,6 +54,28 @@ h3 {
 :focus-visible {
   outline: 2px solid var(--color-gold);
   outline-offset: 3px;
+}
+
+/* ---------- Persian / RTL ---------- */
+html[lang="fa"] {
+  --font-display: var(--font-vazir), Tahoma, sans-serif;
+  --font-sans: var(--font-vazir), Tahoma, sans-serif;
+}
+/* Letter-spacing breaks the joins between Persian letters */
+[dir="rtl"] body * {
+  letter-spacing: 0 !important;
+}
+[dir="rtl"] :is(h1, h2) {
+  line-height: 1.45;
+}
+[dir="rtl"] em {
+  font-style: normal;
+}
+[dir="rtl"] .link-underline {
+  background-position: right bottom;
+}
+[dir="rtl"] .hero-pagination .swiper-pagination-bullet::after {
+  transform-origin: right;
 }
 
 /* ---------- Shared bits ---------- */
