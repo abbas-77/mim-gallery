@@ -1,26 +1,191 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/*
+  MIM Gallery: royal green + hallmark gold on a soft ivory ground.
+  Layout: generous whitespace, left-aligned editorial headings, hairline dividers.
+*/
+@theme {
+  /* Royal green */
+  --color-royal-950: #07231a;
+  --color-royal-900: #0b3325;
+  --color-royal-800: #104431;
+  --color-royal-700: #175a41;
+  --color-royal-100: #e2ebe5;
+
+  /* Gold */
+  --color-gold: #c3a05a;
+  --color-gold-light: #e5d3a4;
+  --color-gold-dark: #94733a;
+
+  /* Neutrals (slightly green-biased) */
+  --color-ivory: #f9f8f3;
+  --color-sand: #eeebe2;
+  --color-ink: #16201b;
+  --color-muted: #66706a;
+
+  --font-display: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
+  --font-sans: var(--font-manrope), "Manrope", system-ui, sans-serif;
+
+  --ease-lux: cubic-bezier(0.22, 0.7, 0.2, 1);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-ivory);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+}
+
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}
+
+::selection {
+  background: var(--color-gold-light);
+  color: var(--color-royal-950);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 3px;
+}
+
+/* ---------- Shared bits ---------- */
+.eyebrow {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+}
+
+.link-underline {
+  background: linear-gradient(currentColor, currentColor) no-repeat left bottom / 0% 1px;
+  transition: background-size 0.5s var(--ease-lux);
+  padding-bottom: 2px;
+}
+.link-underline:hover {
+  background-size: 100% 1px;
+}
+
+/* ---------- Scroll reveal ---------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 0.9s var(--ease-lux),
+    transform 0.9s var(--ease-lux);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---------- Hero slider ---------- */
+@keyframes kenburns {
+  from {
+    transform: scale(1.12);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+.hero .hero-media img {
+  transform: scale(1.12);
+}
+.hero .swiper-slide-active .hero-media img {
+  animation: kenburns 7s var(--ease-lux) forwards;
+}
+
+.hero .hero-copy > * {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 0.9s var(--ease-lux),
+    transform 0.9s var(--ease-lux);
+}
+.hero .swiper-slide-active .hero-copy > * {
+  opacity: 1;
+  transform: none;
+}
+.hero .swiper-slide-active .hero-copy > *:nth-child(1) { transition-delay: 0.5s; }
+.hero .swiper-slide-active .hero-copy > *:nth-child(2) { transition-delay: 0.65s; }
+.hero .swiper-slide-active .hero-copy > *:nth-child(3) { transition-delay: 0.8s; }
+.hero .swiper-slide-active .hero-copy > *:nth-child(4) { transition-delay: 0.95s; }
+
+/* Line-style pagination with a gold fill that runs for the autoplay delay */
+.hero-pagination {
+  display: flex;
+  gap: 10px;
+}
+.hero-pagination .swiper-pagination-bullet {
+  position: relative;
+  width: 44px;
+  height: 2px;
+  border-radius: 0;
+  margin: 0 !important;
+  background: rgb(249 248 243 / 0.3);
+  opacity: 1;
+  overflow: hidden;
+  cursor: pointer;
+}
+.hero-pagination .swiper-pagination-bullet::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--color-gold);
+  transform: scaleX(0);
+  transform-origin: left;
+}
+.hero-pagination .swiper-pagination-bullet-active::after {
+  animation: bullet-fill 6s linear forwards;
+}
+@keyframes bullet-fill {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* ---------- Product carousel ---------- */
+.product-swiper .swiper-scrollbar {
+  position: relative;
+  left: 0 !important;
+  width: 100% !important;
+  bottom: auto !important;
+  margin-top: 2.5rem;
+  height: 2px;
+  border-radius: 0;
+  background: rgb(22 32 27 / 0.08);
+}
+.product-swiper .swiper-scrollbar-drag {
+  border-radius: 0;
+  background: var(--color-royal-800);
+  cursor: grab;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .reveal,
+  .hero .hero-copy > * {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .hero .swiper-slide-active .hero-media img,
+  .hero-pagination .swiper-pagination-bullet-active::after {
+    animation: none;
+  }
+  .hero .hero-media img {
+    transform: none;
+  }
+  .hero-pagination .swiper-pagination-bullet-active::after {
+    transform: scaleX(1);
+  }
 }

@@ -1,117 +1,87 @@
 "use client";
 
-import React, { useEffect, useMemo, useRef } from "react";
 import Image from "next/image";
-import { Heart, ZoomIn } from "lucide-react";
-import gsap from "gsap";
+import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
+import Reveal from "@/components/reveal/Reveal";
 
 export type ExploreItem = {
   id: string | number;
   src: string;
   alt?: string;
   title?: string;
-  price?: string | number;
+  price?: string;
   badge?: string;
+  href?: string;
 };
 
 interface ExploreMasonryProps {
   items: ExploreItem[];
   columnsClassName?: string;
-  cardClassName?: string;
-  withReveal?: boolean;
 }
 
 export default function ExploreMasonry({
   items,
-  columnsClassName = "columns-1 sm:columns-2 md:columns-3 lg:columns-4 xl:columns-5",
-  cardClassName = "",
-  withReveal = true,
+  columnsClassName = "columns-2 md:columns-3 lg:columns-4",
 }: ExploreMasonryProps) {
-  const refs = useRef<HTMLDivElement[]>([]);
-
-  // Clear and repopulate refs when items change
-  useEffect(() => {
-    refs.current = refs.current.slice(0, items.length);
-  }, [items.length]);
-
-  useEffect(() => {
-    if (!withReveal) return;
-    const elements = refs.current.filter(Boolean);
-    if (!elements.length) return;
-
-    gsap.set(elements, { opacity: 0, y: 24 });
-    gsap.to(elements, {
-      opacity: 1,
-      y: 0,
-      duration: 0.6,
-      ease: "power2.out",
-      stagger: 0.06,
-    });
-  }, [withReveal, items]);
-
-  const formatted = useMemo(() => items, [items]);
-
   return (
-    <div className="w-full px-5">
-       <h2 className="text-4xl text-center font-[Playfair_Display] text-yellow-700 my-10">
-          Explore
-        </h2>
+    <section id="explore" className="scroll-mt-20 py-24 md:py-32">
+      <div className="mx-auto max-w-7xl px-6 md:px-12">
+        <Reveal className="mb-14 flex flex-wrap items-end justify-between gap-6">
+          <div>
+            <p className="eyebrow text-gold-dark">Explore</p>
+            <h2 className="mt-4 font-display text-4xl font-medium md:text-5xl">The full gallery</h2>
+          </div>
+          <p className="max-w-sm leading-relaxed text-muted">
+            Rings, chains, earrings and sets. Tap any piece to see its karat, weight and price.
+          </p>
+        </Reveal>
 
-      <div className={`gap-4 ${columnsClassName}`}>
-        {formatted.map((item, i) => (
-          <div
-            key={item.id}
-            ref={(el) => {
-              if (el) refs.current[i] = el;
-            }}
-            className={`mb-4 break-inside-avoid rounded-2xl overflow-hidden shadow-sm ring-1 ring-black/5 bg-white/5 backdrop-blur-sm ${cardClassName}`}
-          >
-            <div className="group relative">
-              <div className="relative w-full">
+        <div className={`gap-4 md:gap-6 ${columnsClassName}`}>
+          {items.map((item, i) => {
+            const card = (
+              <div className="group relative overflow-hidden bg-sand">
                 <Image
                   src={item.src}
-                  alt={item.alt || "product"}
+                  alt={item.alt || item.title || "Jewelry piece"}
                   width={800}
                   height={1000}
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 20vw"
-                  className="w-full h-auto object-cover align-middle block transition-transform duration-300 group-hover:scale-[1.02]"
-                  priority={i < 6}
+                  sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                  className="block h-auto w-full transition-transform duration-[1400ms] ease-[var(--ease-lux)] group-hover:scale-[1.05]"
                 />
 
-                <div className="pointer-events-none absolute inset-0 flex items-end justify-between p-3 opacity-0 transition-opacity duration-300 group-hover:opacity-100 bg-gradient-to-t from-black/50 via-black/10 to-transparent">
-                  <span className="inline-flex items-center gap-1 text-white/95 text-sm font-medium">
-                    <ZoomIn className="w-4 h-4" />
-                    Quick view
-                  </span>
-                  <span className="inline-flex items-center gap-1 text-white/95 text-sm font-medium">
-                    <Heart className="w-4 h-4" />
-                    Save
-                  </span>
+                <div className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-royal-950/80 via-royal-950/10 to-transparent p-4 opacity-0 transition-opacity duration-500 group-hover:opacity-100 md:p-5">
+                  <div className="flex items-end justify-between gap-3 text-ivory">
+                    <div className="min-w-0">
+                      {item.title && <p className="font-display text-lg leading-tight md:text-xl">{item.title}</p>}
+                      {item.price && <p className="mt-1 text-xs tracking-[0.14em] text-gold-light tabular-nums">{item.price}</p>}
+                    </div>
+                    <ArrowUpRight className="h-5 w-5 shrink-0 text-gold-light" strokeWidth={1.5} />
+                  </div>
                 </div>
 
                 {item.badge && (
-                  <div className="absolute left-3 top-3 select-none rounded-full bg-black/70 text-white text-xs px-2 py-1">
+                  <span className="eyebrow absolute left-3 top-3 bg-ivory/90 px-2 py-1 !text-[10px] !tracking-[0.2em] text-royal-800">
                     {item.badge}
-                  </div>
+                  </span>
                 )}
               </div>
+            );
 
-              {(item.title || item.price) && (
-                <div className="p-3">
-                  {item.title && (
-                    <div className="text-sm font-medium text-black/95">{item.title}</div>
-                  )}
-                  {typeof item.price !== "undefined" && (
-                    <div className="text-xs text-black/70 mt-0.5">
-                      {typeof item.price === "number" ? `€${item.price.toLocaleString()}` : item.price}
-                    </div>
-                  )}
-                </div>
-              )}
-            </div>
-          </div>
-        ))}
+            return (
+              <Reveal key={item.id} delay={(i % 4) * 90} className="mb-4 break-inside-avoid md:mb-6">
+                {item.href ? (
+                  <Link href={item.href} aria-label={item.title}>
+                    {card}
+                  </Link>
+                ) : (
+                  card
+                )}
+              </Reveal>
+            );
+          })}
+        </div>
       </div>
-    </div>
+    </section>
   );
 }

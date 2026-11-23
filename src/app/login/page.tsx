@@ -1,8 +1,13 @@
 "use client";
 import { useState, type FormEvent } from "react";
+import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense } from "react";
+import { ArrowRight } from "lucide-react";
 import { login, getErrorMessage } from "@/services/auth";
+
+const inputClass =
+  "w-full border-0 border-b border-ink/20 bg-transparent px-0 py-3 text-base text-ink placeholder:text-muted/60 transition-colors focus:border-royal-800 focus:outline-none focus:ring-0";
 
 function LoginForm() {
   const [username, setUsername] = useState("");
@@ -29,35 +34,57 @@ function LoginForm() {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="flex flex-col gap-4 p-6 bg-white text-black shadow rounded-lg w-80"
-    >
-      <input
-        type="text"
-        placeholder="Username or email"
-        autoComplete="username"
-        required
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-        className="border p-2 rounded"
-      />
-      <input
-        type="password"
-        placeholder="Password"
-        autoComplete="current-password"
-        required
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        className="border p-2 rounded"
-      />
-      {error && <p className="text-red-500 text-sm">{error}</p>}
+    <form onSubmit={handleSubmit} className="w-full max-w-sm">
+      <p className="eyebrow text-gold-dark">Welcome back</p>
+      <h1 className="mt-4 font-display text-4xl font-medium md:text-5xl">Sign in to your account</h1>
+      <p className="mt-4 text-sm leading-relaxed text-muted">
+        See your orders, saved pieces and ring sizes in one place.
+      </p>
+
+      <div className="mt-12 space-y-8">
+        <div>
+          <label htmlFor="username" className="eyebrow !text-[10px] text-muted">
+            Username or email
+          </label>
+          <input
+            id="username"
+            type="text"
+            autoComplete="username"
+            required
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            className={inputClass}
+          />
+        </div>
+        <div>
+          <label htmlFor="password" className="eyebrow !text-[10px] text-muted">
+            Password
+          </label>
+          <input
+            id="password"
+            type="password"
+            autoComplete="current-password"
+            required
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className={inputClass}
+          />
+        </div>
+      </div>
+
+      {error && (
+        <p role="alert" className="mt-6 border-l-2 border-red-700 bg-red-50 px-4 py-3 text-sm text-red-800">
+          {error}
+        </p>
+      )}
+
       <button
         type="submit"
         disabled={loading}
-        className="bg-blue-500 text-white p-2 rounded hover:bg-blue-600 disabled:opacity-60"
+        className="group mt-10 flex w-full items-center justify-center gap-3 bg-royal-900 px-8 py-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-ivory transition-colors duration-300 hover:bg-royal-800 disabled:opacity-60"
       >
-        {loading ? "Logging in..." : "Login"}
+        {loading ? "Signing in…" : "Sign in"}
+        {!loading && <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />}
       </button>
     </form>
   );
@@ -65,11 +92,24 @@ function LoginForm() {
 
 export default function LoginPage() {
   return (
-    <div className="flex h-screen items-center justify-center">
-      {/* useSearchParams needs a Suspense boundary */}
-      <Suspense>
-        <LoginForm />
-      </Suspense>
+    <div className="grid min-h-screen md:grid-cols-2">
+      <div className="relative hidden overflow-hidden bg-royal-950 md:block">
+        <Image src="/images/banner2.jpg" alt="" fill priority sizes="50vw" className="object-cover opacity-70" />
+        <div className="absolute inset-0 bg-gradient-to-t from-royal-950 via-royal-950/40 to-royal-950/20" />
+        <div className="absolute inset-x-0 bottom-0 p-12 text-ivory">
+          <p className="max-w-md font-display text-3xl italic leading-snug text-gold-light">
+            &ldquo;Gold keeps its value. Good design keeps its meaning.&rdquo;
+          </p>
+          <p className="eyebrow mt-6 text-ivory/60">MIM Gallery</p>
+        </div>
+      </div>
+
+      <div className="flex items-center justify-center px-6 pb-16 pt-32 md:px-12">
+        {/* useSearchParams needs a Suspense boundary */}
+        <Suspense>
+          <LoginForm />
+        </Suspense>
+      </div>
     </div>
   );
 }
