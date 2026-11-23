@@ -1,7 +1,7 @@
 "use client";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-
+// mongodb+srv://abbasazimii77_db_user:Yi15tlv6jbQRoeWP@cluster0.lne4kbq.mongodb.net/
 export default function DashboardPage() {
   const router = useRouter();
 
